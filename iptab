@@ -1,0 +1,27 @@
+#!/bin/bash
+# Program:
+#	Program shows the script name, parameters...
+# History:
+# 2009/02/17	VBird	First release
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+name="$1"
+#hostip="$2"
+#toport="$3"
+
+#echo $name
+#echo $hostip
+#echo toport
+
+case $name in
+    "add")
+    iptables -t nat -A PREROUTING -p tcp -s $2/32 -m set ! --match-set gfwlist dst -j REDIRECT --to-port $3
+    ;;
+    "remove")
+    iptables -t nat -D PREROUTING -p tcp -s $2/32 -m set ! --match-set gfwlist dst -j REDIRECT --to-port $3
+    ;;
+    "update")
+    iptables -t nat -D PREROUTING -p tcp -s $2/32 -m set ! --match-set gfwlist dst -j REDIRECT --to-port $3
+    iptables -t nat -A PREROUTING -p tcp -s $2/32 -m set ! --match-set gfwlist dst -j REDIRECT --to-port $4
+esac
