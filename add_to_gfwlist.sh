@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd /scripts
-/bin/sh iptab add $1 1280
+/bin/sh iptab add $1 $2
